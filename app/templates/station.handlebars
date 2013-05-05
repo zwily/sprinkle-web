@@ -14,7 +14,18 @@
       {{#if unitEditing}}
         <a href="" {{action editStation}}>{{name}} <i class="icon-pencil"></i></a>
       {{else}}
+        {{#if desired_state}}
+          <div class="right">
+            {{render "spinner" this}}
+          </div>
+        {{/if}}
         {{name}}
+        {{#if real_state}}
+          <div class="progress progress-striped active">
+            <div class="bar" {{bindAttr style="progressStyle"}}></div>
+            &nbsp; {{timeLeft}} left
+          </div>
+        {{/if}}
       {{/if}}
     {{/if}}
   </td>
@@ -24,12 +35,9 @@
       {{#unless creating}}
         <a href="" {{action toggleStation}}>
           {{#if real_state}}
-            {{real_state}}
+            on
           {{else}}
             off
-          {{/if}}
-          {{#if desired_state}}
-            {{render "spinner" this}}
           {{/if}}
         </a>
       {{/unless}}

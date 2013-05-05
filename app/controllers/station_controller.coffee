@@ -1,5 +1,5 @@
 module.exports = Ember.ObjectController.extend
-  needs: ['unit']
+  needs: ['unit', 'application']
 
   toggleStation: ->
     # if an action is pending, cancel it
@@ -10,7 +10,7 @@ module.exports = Ember.ObjectController.extend
     # otherwise, request an opposite status of what's
     # current
     new_state = 'on'
-    if @get('real_state') == "on"
+    if @get('real_state.state') == 1
       new_state = 'off'
 
     @get('stationRef').child('desired_state').set
@@ -39,9 +39,26 @@ module.exports = Ember.ObjectController.extend
         @get('stationRef').remove()
 
   isOn: (->
-    @get('real_state') == "on"
-  ).property('real_state')
+    @get('real_state.state') == 1
+  ).property('real_state.state')
 
   unitEditing: (->
     @get 'controllers.unit.editing'
   ).property 'controllers.unit.editing'
+
+  progressStyle: (->
+    start = @get 'real_state.start'
+    end = @get 'real_state.until'
+    now = new Date().getTime()
+    "width: #{ ((now - start) / (end - start)) * 100 }%"
+  ).property 'real_state.end', 'controllers.application.currentTime'
+
+  timeLeft: (->
+    end = @get 'real_state.until'
+    now = new Date().getTime()
+    secondsLeft = ((end - now) / 1000).toFixed(0)
+    if secondsLeft > 90
+      "#{(secondsLeft / 60).toFixed(0)}m"
+    else
+      "#{secondsLeft}s"
+  ).property 'real_state.end', 'controllers.application.currentTime'

@@ -9,6 +9,11 @@ module.exports = Ember.Route.extend
   activate: ->
     model = @modelFor 'application'
 
+    # update current time every second, for those models that care
+    setInterval ->
+      model.set 'currentTime', new Date().getTime()
+    , 1000
+
     ## TODO: Make firebase location configurable
     App.firebaseRootRef = new Firebase 'https://sprinkle.firebaseio.com/'
     Firebase.root = App.firebaseRootRef

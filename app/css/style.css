@@ -88,3 +88,7 @@ td.stationAction {
   width: 25px;
   text-align: center;
 }
+
+.stationName .progress {
+  margin-bottom: 4px;
+}
