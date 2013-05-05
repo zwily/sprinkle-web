@@ -1,0 +1,5 @@
+build/
+app/application.js
+app/templates.js
+app/index.js
+deploy-prod.sh

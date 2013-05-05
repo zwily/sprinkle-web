@@ -1,0 +1,10 @@
+<p></p>
+{{outlet}}
+<hr>
+<p>
+  {{#if authUser}}
+    Logged in as <em>{{authUser.email}}</em>
+    {{#linkTo "logout"}}<button class="btn btn-small">Logout</button>{{/linkTo}}
+  {{/if}}
+</p>
+

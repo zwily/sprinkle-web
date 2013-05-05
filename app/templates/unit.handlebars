@@ -1,0 +1,29 @@
+<h2>{{name}}</h2>
+
+{{render "stations" stations}}
+
+{{#if editing}}
+  <div class="right">
+    <a href="" {{action doneEditing}}>
+      <button class="btn btn-small btn-primary">Done</button>
+    </a>
+  </div>
+  <a href="" {{action addStation}}>
+    <button class="btn btn-small">
+      <i class="icon-plus"></i> Add Station
+    </button>
+  </a>
+{{else}}
+  <div class="right">
+    <a href="" {{action edit}}>
+      <button class="btn btn-small">
+        <i class="icon-pencil"></i> Edit Stations
+      </button>
+    </a>
+  </div>
+{{/if}}
+<div class="clear" />
+
+<hr>
+{{render "programs" programs}}
+

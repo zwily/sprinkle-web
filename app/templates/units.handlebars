@@ -1,0 +1,19 @@
+{{#if multipleUnits}}
+  <table class="units table table-striped table-bordered">
+    {{#each controller}}
+      <tr>
+        <td>{{#linkTo "unit" this}}{{name}}{{/linkTo}}</td>
+        <td class="online-status">
+          {{#if unit-connected}}
+            <span class="label label-success">Connected</span>
+          {{else}}
+            <span class="label label-warning">Not Connected</span>
+          {{/if}}
+        </td>
+      </tr>
+    {{/each}}
+  </table>
+  <hr>
+{{/if}}
+{{outlet}}
+

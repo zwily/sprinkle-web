@@ -1,0 +1,6 @@
+{
+  "modules": "cjs",
+  "appDir": "app",
+  "withData": false
+}
+

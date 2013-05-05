@@ -1,0 +1,45 @@
+<tr {{bindAttr class="isOn:info"}}>
+  <td class="stationId">
+    {{#if creating}}
+      {{view Ember.TextField valueBinding="id" type="text" action="save" size="2" classNames="station-id"}}
+    {{else}}
+      {{id}}
+    {{/if}}
+  </td>
+
+  <td class="stationName">
+    {{#if editing}}
+      {{view Ember.TextField valueBinding="name" type="text" action="save"}}
+    {{else}}
+      {{#if unitEditing}}
+        <a href="" {{action editStation}}>{{name}} <i class="icon-pencil"></i></a>
+      {{else}}
+        {{name}}
+      {{/if}}
+    {{/if}}
+  </td>
+
+  {{#unless unitEditing}}
+    <td class="stationAction">
+      {{#unless creating}}
+        <a href="" {{action toggleStation}}>
+          {{#if real_state}}
+            {{real_state}}
+          {{else}}
+            off
+          {{/if}}
+          {{#if desired_state}}
+            {{render "spinner" this}}
+          {{/if}}
+        </a>
+      {{/unless}}
+    </td>
+  {{/unless}}
+
+  {{#if unitEditing}}
+    <td class="stationDelete">
+      <a href="" {{action delete}}><i class="icon-trash"></i></a>
+    </td>
+  {{/if}}
+</tr>
+
