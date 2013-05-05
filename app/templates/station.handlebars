@@ -31,15 +31,13 @@
   </td>
 
   {{#unless unitEditing}}
-    <td class="stationAction">
+    <td class="stationAction" {{action toggleStation}}>
       {{#unless creating}}
-        <a href="" {{action toggleStation}}>
-          {{#if real_state}}
-            on
-          {{else}}
-            off
-          {{/if}}
-        </a>
+        {{#if real_state}}
+          on
+        {{else}}
+          off
+        {{/if}}
       {{/unless}}
     </td>
   {{/unless}}

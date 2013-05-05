@@ -87,6 +87,8 @@ td.stationId {
 td.stationAction {
   width: 25px;
   text-align: center;
+  color: #0088cc;
+  cursor: pointer;
 }
 
 .stationName .progress {
