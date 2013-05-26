@@ -1,3 +1,10 @@
+<div class="unit-status pull-right">
+  {{#if unit-connected}}
+    <span class="label label-success">Connected</span>
+  {{else}}
+    <span class="label label-warning">Not Connected</span>
+  {{/if}}
+</div>
 <h2>{{name}}</h2>
 
 {{render "stations" stations}}
