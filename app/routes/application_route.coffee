@@ -25,6 +25,10 @@ module.exports = Ember.Route.extend
       App.firebaseUser = user
       model.set 'firebaseUserRef', null
 
+      if error
+        # the login failed for some reason, so don't attempt to continue
+        return
+
       # the @transitionTo calls below need to be made the next
       # time around the run loop, because the app may be currently
       # booting and calling them immediately can confuse things.
