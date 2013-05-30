@@ -8,9 +8,10 @@ module.exports = Ember.Route.extend
   model: ->
     userRef = @modelFor('application').get('firebaseUserRef')
 
-    ## WOW - this could use some abstracting
+    # There is a beautiful layer of abstraction just waiting to
+    # be teased out of this awful code. I just haven't gone
+    # looking for it yet. Beware what lies ahead.
 
-    console.log('creating units firebase stuff')
     units = Ember.ArrayProxy.create({content: []})
 
     rootRef = App.firebaseRootRef
@@ -31,7 +32,9 @@ module.exports = Ember.Route.extend
 
 
       # watch the unit's stations
-      stations = Ember.ArrayController.create({content: []})
+      stations = Ember.ArrayController.create
+        content: []
+        sortProperties: [ 'id' ]
       unit.set 'stations', stations
 
       stationsRef = unitRef.child '/stations'
@@ -62,22 +65,62 @@ module.exports = Ember.Route.extend
       programs.set 'ref', programsRef
 
       programsRef.on 'child_added', (ss) ->
-        program = Ember.Object.create { id: parseInt(ss.name()) }
+        # watch the program
+        program = Ember.Object.create { id: ss.name() }
         programRef = ss.ref()
         program.set 'ref', programRef
 
-        programRef.on 'value', (ss) ->
-          program.set 'name', ss.child('name').val()
-          stationsAry = []
-          ss.child('stations').forEach (sss) ->
-            stationsAry.push sss.val()
-            false
-          program.set 'stations', stationsAry
+        programRef.child('/name').on 'value', (ss) ->
+          program.set 'name', ss.val()
+
+        programStations = Ember.ArrayController.create
+          content: []
+        program.set 'programStations', programStations
+
+        programStationsRef = programRef.child '/stations'
+        programStations.set 'ref', programStationsRef
+
+        programStationsRef.on 'child_added', (ss, prevName) ->
+          programStation = Ember.Object.create
+            id: ss.name()
+            station: parseInt(ss.child('station').val())
+            duration: parseInt(ss.child('duration').val())
+            program: program
+            programStations: programStations
+
+          # watch the program station, yadda yadda
+          programStationRef = ss.ref()
+          programStation.set 'ref', programStationRef
+
+          programStationRef.on 'value', (ss) ->
+            programStation.set 'station', parseInt(ss.child('station').val())
+            programStation.set 'duration', parseInt(ss.child('duration').val())
+
+          idx = 0
+          if prevName
+            prevStation = programStations.findProperty('id', prevName)
+            idx = programStations.indexOf(prevStation) + 1
+          programStations.insertAt(idx, programStation)
+
+        programStationsRef.on 'child_removed', (ss) ->
+          obj = programStations.findProperty 'id', ss.name()
+          programStations.removeObject(obj) if obj
+
+        programStationsRef.on 'child_moved', (ss, prevName) ->
+          obj = programStations.findProperty 'id', ss.name()
+          programStations.removeObject(obj) if obj
+
+          idx = 0
+          if prevName
+            prevStation = programStations.findProperty('id', prevName)
+            idx = programStations.indexOf(prevStation) + 1
+          programStations.insertAt(idx, obj)
+
 
         programs.pushObject program
 
       programsRef.on 'child_removed', (ss) ->
-        obj = programs.findProperty 'id', parseInt(ss.name())
+        obj = programs.findProperty 'id', ss.name()
         programs.removeObject(obj) if obj
 
 

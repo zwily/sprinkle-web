@@ -1,4 +1,12 @@
+<br />
+<hr />
+
 <h1>Programs</h1>
 {{#each controller}}
   {{render "program" this}}
 {{/each}}
+
+<button class="btn btn-small" {{action add}}>
+  <i class="icon-plus"></i> Add Program
+</button>
+

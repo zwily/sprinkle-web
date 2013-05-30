@@ -1,9 +1,39 @@
-<div class="right">
-  <button class="btn btn-small btn-primary">
-    <i class="icon-play icon-white"></i> Run
+{{#unless editing}}
+  <div class="right">
+    <button class="btn btn-small btn-primary">
+      <i class="icon-play icon-white"></i> Run
+    </button>
+  </div>
+{{/unless}}
+
+<h2>
+  {{#if editing}}
+    {{view Ember.TextField valueBinding="name" type="text"}}
+  {{else}}
+    {{name}}
+  {{/if}}
+</h2>
+
+{{render "programStations" programStations}}
+
+{{#if editing}}
+  <div class="right">
+    <button class="btn btn-small btn-primary" {{action doneEditing}}>Done</button>
+  </div>
+  <button class="btn btn-small" {{action addStation}}>
+    <i class="icon-plus"></i> Add Station
   </button>
-</div>
+  <button class="btn btn-small" {{action delete}}>
+    <i class="icon-trash"></i> Delete Program
+  </button>
+{{else}}
+  <div class="right">
+    <button class="btn btn-small" {{action edit}}>
+      <i class="icon-pencil"></i> Edit
+    </button>
+  </div>
+{{/if}}
+<br />
+<br />
+<div class="clear" />
 
-<h2>{{name}}</h2>
-
-{{render "programStations" stations}}

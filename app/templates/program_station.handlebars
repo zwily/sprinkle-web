@@ -1,5 +1,36 @@
-<tr>
-  <td>{{stationModel.name}}</td>
-  <td>{{duration}}</td>
+<tr class="programStation">
+  <td>{{station}}</td>
+  <td>
+    {{#if program.editing}}
+      <div class="right">
+        {{#unless first}}
+          <button class="btn btn-small" {{action up}}>
+            <i class="icon-arrow-up"></i>
+          </button>
+        {{/unless}}
+        <button class="btn btn-small" {{action delete}}>
+          <i class="icon-trash"></i>
+        </button>
+      </div>
+    {{/if}}
+
+    {{#if creating}}
+      {{view Ember.Select viewName="select"
+                          contentBinding="controllers.unit.stations"
+                          optionLabelPath="content.name"
+                          optionValuePath="content.id"
+                          selectionBinding="stationModel"
+                          valueBinding="station"}}
+    {{else}}
+      {{stationModel.name}}
+    {{/if}}
+  </td>
+  <td class="duration">
+    {{#if program.editing}}
+      {{view Ember.TextField valueBinding="durationMinutes" type="text" classNames="duration"}}
+    {{else}}
+      {{durationMinutes}}m
+    {{/if}}
+  </td>
 </tr>
 

@@ -36,6 +36,14 @@ a.active {
 input.station-id {
   width: 30px;
 }
+input.duration {
+  width: 30px;
+  margin-bottom: 0 !important;
+}
+
+tr.programStation select {
+  margin-bottom: 0;
+}
 
 table.units td.online-status {
   width: 50px;
@@ -99,4 +107,8 @@ div.loading {
   text-align: center;
   margin-top: 100px;
   width: 100%;
+}
+
+.program-stations .duration {
+  text-align: right;
 }
