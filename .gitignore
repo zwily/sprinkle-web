@@ -3,3 +3,4 @@ app/application.js
 app/templates.js
 app/index.js
 deploy-prod.sh
+.DS_Store
