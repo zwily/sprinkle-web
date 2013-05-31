@@ -73,6 +73,12 @@ module.exports = Ember.Route.extend
         programRef.child('/name').on 'value', (ss) ->
           program.set 'name', ss.val()
 
+        programRef.child('/desired_state').on 'value', (ss) ->
+          program.set 'desired_state', ss.val()
+
+        programRef.child('/real_state').on 'value', (ss) ->
+          program.set 'real_state', ss.val()
+
         programStations = Ember.ArrayController.create
           content: []
         program.set 'programStations', programStations

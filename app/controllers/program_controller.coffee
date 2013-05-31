@@ -1,6 +1,23 @@
 module.exports = Ember.ObjectController.extend
   needs: ['unit']
 
+  setState: (state) ->
+    if @get 'desired_state'
+      @get('ref').child('desired_state').remove()
+      return
+
+    @get('ref').child('desired_state').set
+      state: state
+      username: App.firebaseUser.email
+      device: 'Web'
+      time: (new Date().getTime() / 1000)
+
+  run: ->
+    @setState('on')
+
+  stop: ->
+    @setState('off')
+
   edit: ->
     @set 'editing', true
 
