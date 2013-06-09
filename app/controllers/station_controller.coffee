@@ -10,7 +10,7 @@ module.exports = Ember.ObjectController.extend
     # otherwise, request an opposite status of what's
     # current
     new_state = 'on'
-    if @get('real_state.state') == 1
+    if @get('real_state.state') == 'on'
       new_state = 'off'
 
     @get('stationRef').child('desired_state').set
@@ -39,7 +39,7 @@ module.exports = Ember.ObjectController.extend
         @get('stationRef').remove()
 
   isOn: (->
-    @get('real_state.state') == 1
+    @get('real_state.state') == 'on'
   ).property('real_state.state')
 
   unitEditing: (->
